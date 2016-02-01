@@ -1,0 +1,15 @@
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\bin\AnyCPU\Debug\BodyBasics-WPF.exe
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\bin\AnyCPU\Debug\BodyBasics-WPF.pdb
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\bin\AnyCPU\Debug\Microsoft.Kinect.dll
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\bin\AnyCPU\Debug\Microsoft.Kinect.xml
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\Semester2.csprojResolveAssemblyReference.cache
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\MainWindow.baml
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\MainWindow.g.cs
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\App.g.cs
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\BodyBasics-WPF_MarkupCompile.cache
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\BodyBasics-WPF.g.resources
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\Microsoft.Samples.Kinect.BodyBasics.Properties.Resources.resources
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\Semester2.csproj.GenerateResource.Cache
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\BodyBasics-WPF.exe
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\BodyBasics-WPF.pdb

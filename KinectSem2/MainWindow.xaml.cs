@@ -23,7 +23,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-
+        //test
         private const double InfraredSourceGamma = 0.35f;
 
         /// <summary>

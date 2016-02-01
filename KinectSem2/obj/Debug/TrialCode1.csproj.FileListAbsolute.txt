@@ -49,3 +49,18 @@ C:\Users\yemx2\Desktop\TrialCode3\TrialCode2\TrialCode2\TrialCode1\obj\Debug\Tri
 E:\TrialCode4\TrialCode1\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config
 E:\TrialCode4\TrialCode1\obj\Debug\BodyBasics-WPF.exe
 E:\TrialCode4\TrialCode1\obj\Debug\BodyBasics-WPF.pdb
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\BodyBasics-WPF.exe
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\BodyBasics-WPF.pdb
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\bin\AnyCPU\Debug\BodyBasics-WPF.exe
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\bin\AnyCPU\Debug\BodyBasics-WPF.pdb
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\bin\AnyCPU\Debug\Microsoft.Kinect.dll
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\bin\AnyCPU\Debug\Microsoft.Kinect.xml
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\TrialCode1.csprojResolveAssemblyReference.cache
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\MainWindow.baml
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\MainWindow.g.cs
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\App.g.cs
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\BodyBasics-WPF_MarkupCompile.cache
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\BodyBasics-WPF.g.resources
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\Microsoft.Samples.Kinect.BodyBasics.Properties.Resources.resources
+F:\Uni Work\PROJECT\kinectv2\KinectSem2\obj\Debug\TrialCode1.csproj.GenerateResource.Cache
