@@ -17,13 +17,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
     using System.Text;
     using System.Windows.Media.Imaging;
     using System.Runtime.InteropServices;
-
+    using System.Drawing;
     /// <summary>
     /// Interaction logic for MainWindow
     /// </summary>
-    public partial class MainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window//, //INotifyPropertyChanged
     {
-        //test
+        
+        /*//test
         private const double InfraredSourceGamma = 0.35f;
 
         /// <summary>
@@ -135,7 +136,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private string statusText = null;
 
         private TrialCode1.KinectJointFilter filter = new TrialCode1.KinectJointFilter();
-
+        private object e;
+        */
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -143,6 +145,31 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         public MainWindow()
         {
 
+            Bitmap bitmap = new Bitmap(@"H:\MarkerlessSamples\20160125_132341_00\depth\0.png");
+            Graphics e = null;
+            e.DrawImage(bitmap, 60, 10);
+
+
+/*
+            using (var src = new Bitmap("c:/temp/trans.png"))
+            using (var bmp = new Bitmap(100, 100, PixelFormat.Format32bppPArgb))
+            using (var gr = Graphics.FromImage(bmp))
+            {
+                gr.Clear(Color.Blue);
+                gr.DrawImage(src, new Rectangle(0, 0, bmp.Width, bmp.Height));
+                bmp.Save("c:/temp/result.png", ImageFormat.Png);
+            }
+            */
+            // Image newImage = Image.FromFile(@"C:\Users\Administrator\Documents\logoGreyHybridText.png");
+
+            //  Graphics graphics = controlToDrawOver.CreateGraphics();
+
+            // Note rectangle x,y coordinates are relative to 
+            // the 'controlToDrawOver' object.
+            //    Rectangle rectangleAreaToDrawImage = new Rectangle(100, 100, 450, 150);
+            //  graphics.DrawImage(newImage, rectangleAreaToDrawImage);
+
+            /*
 
             filter.Init(0.5f,0.5f,0.5f,0.1f,0.1f); //initialize the filter class
             // one sensor is currently supported
@@ -237,424 +264,433 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             // initialize the components (controls) of the window
             this.InitializeComponent();
 
-
+            */
 
 
 
         }
 
-        /// <summary>
-        /// INotifyPropertyChangedPropertyChanged event to allow window controls to bind to changeable data
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Gets the bitmap to display
-        /// </summary>
-        public ImageSource ImageSource
-        {
-            get
-            {
-                return this.imageSource;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the current status text to display
-        /// </summary>
-        public string StatusText
-        {
-            get
-            {
-                return this.statusText;
-            }
-
-            set
-            {
-                if (this.statusText != value)
-                {
-                    this.statusText = value;
-
-                    // notify any bound elements that the text has changed
-                    if (this.PropertyChanged != null)
-                    {
-                        this.PropertyChanged(this, new PropertyChangedEventArgs("StatusText"));
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Execute start up tasks
-        /// </summary>
-        /// <param name="sender">object sending the event</param>
-        /// <param name="e">event arguments</param>
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (this.frameReader != null)
-            {
-                this.frameReader.MultiSourceFrameArrived += FrameReader_MultiSourceFrameArrived;
-            }
-        }
-
-        /// <summary>
-        /// Handles the body frame data arriving from the sensor
-        /// </summary>
-        /// <param name="sender">object sending the event</param>
-        /// <param name="e">event arguments</param>
-        private unsafe void FrameReader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
-        {
-            bool dataReceived = false;
-            MultiSourceFrame frame = e.FrameReference.AcquireFrame();
-
-            using (InfraredFrame irFrame = frame.InfraredFrameReference.AcquireFrame())
-            {
-                if (irFrame != null)
-                {
-                    using (var irbuf = irFrame.LockImageBuffer())
-                    {
-                        this.infraredImage.Lock();
-                        ushort* bf = (ushort*)irbuf.UnderlyingBuffer;
-                        float * bb = (float*)this.infraredImage.BackBuffer;
-                        for (int r = 0; r < 424; r++)
-                        {
-                            for (int c = 0; c < 512; c++)
-                            {
-                                bb[c] = (float)Math.Pow((double)bf[c] / 65535.0,InfraredSourceGamma);
-                            }
-                            bb += 512;
-                            bf += 512;
-                        }
-
-                        //this.infraredImage.CopyPixels(new Int32Rect(0, 0, 512, 424), infraredData, 1024, 0);
-
-                        // mark the entire bitmap as needing to be drawn
-                        this.infraredImage.AddDirtyRect(new Int32Rect(0, 0, this.infraredImage.PixelWidth, this.infraredImage.PixelHeight));
-
-                        // unlock the bitmap
-                        this.infraredImage.Unlock();
-
-                    }
-                }
-            }
-
-
-            using (BodyFrame bodyFrame = frame.BodyFrameReference.AcquireFrame())
-            {
-                if (bodyFrame != null)
-                {
-                    if (this.bodies == null)
-                    {
-                        this.bodies = new Body[bodyFrame.BodyCount];
-                    }
+       // public event PropertyChangedEventHandler PropertyChanged;
+
+        /*
+private void DrawImage(Bitmap bitmap, int v1, int v2)
+{
+throw new NotImplementedException();
+}
+
+/// <summary>
+/// INotifyPropertyChangedPropertyChanged event to allow window controls to bind to changeable data
+/// </summary>
+public event PropertyChangedEventHandler PropertyChanged;
+
+/// <summary>
+/// Gets the bitmap to display
+/// </summary>
+public ImageSource ImageSource
+{
+get
+{
+return this.imageSource;
+}
+}
+
+/// <summary>
+/// Gets or sets the current status text to display
+/// </summary>
+public string StatusText
+{
+get
+{
+return this.statusText;
+}
+
+set
+{
+if (this.statusText != value)
+{
+this.statusText = value;
+
+// notify any bound elements that the text has changed
+if (this.PropertyChanged != null)
+{
+this.PropertyChanged(this, new PropertyChangedEventArgs("StatusText"));
+}
+}
+}
+}
+
+/// <summary>
+/// Execute start up tasks
+/// </summary>
+/// <param name="sender">object sending the event</param>
+/// <param name="e">event arguments</param>
+private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+{
+if (this.frameReader != null)
+{
+this.frameReader.MultiSourceFrameArrived += FrameReader_MultiSourceFrameArrived;
+}
+}
+
+/// <summary>
+/// Handles the body frame data arriving from the sensor
+/// </summary>
+/// <param name="sender">object sending the event</param>
+/// <param name="e">event arguments</param>
+private unsafe void FrameReader_MultiSourceFrameArrived(object sender, MultiSourceFrameArrivedEventArgs e)
+{
+bool dataReceived = false;
+MultiSourceFrame frame = e.FrameReference.AcquireFrame();
+
+using (InfraredFrame irFrame = frame.InfraredFrameReference.AcquireFrame())
+{
+if (irFrame != null)
+{
+using (var irbuf = irFrame.LockImageBuffer())
+{
+this.infraredImage.Lock();
+ushort* bf = (ushort*)irbuf.UnderlyingBuffer;
+float * bb = (float*)this.infraredImage.BackBuffer;
+for (int r = 0; r < 424; r++)
+{
+for (int c = 0; c < 512; c++)
+{
+bb[c] = (float)Math.Pow((double)bf[c] / 65535.0,InfraredSourceGamma);
+}
+bb += 512;
+bf += 512;
+}
+
+//this.infraredImage.CopyPixels(new Int32Rect(0, 0, 512, 424), infraredData, 1024, 0);
+
+// mark the entire bitmap as needing to be drawn
+this.infraredImage.AddDirtyRect(new Int32Rect(0, 0, this.infraredImage.PixelWidth, this.infraredImage.PixelHeight));
+
+// unlock the bitmap
+this.infraredImage.Unlock();
+
+}
+}
+}
+
+
+using (BodyFrame bodyFrame = frame.BodyFrameReference.AcquireFrame())
+{
+if (bodyFrame != null)
+{
+if (this.bodies == null)
+{
+this.bodies = new Body[bodyFrame.BodyCount];
+}
 
-                    // The first time GetAndRefreshBodyData is called, Kinect will allocate each Body in the array.
-                    // As long as those body objects are not disposed and not set to null in the array,
-                    // those body objects will be re-used.
-                    bodyFrame.GetAndRefreshBodyData(this.bodies);
-                    dataReceived = true;
-                }
-            }
-
-            if (dataReceived)
-            {
-                using (DrawingContext dc = this.drawingGroup.Open())
-                {
-                    // Draw a transparent background to set the render size
-                    //dc.DrawRectangle(Brushes.Black, null, new Rect(0.0, 0.0, this.displayWidth, this.displayHeight));
-                    dc.DrawImage(this.infraredImage, new Rect(0, 0, this.infraredImage.PixelWidth, this.infraredImage.PixelHeight));
-
-                    int penIndex = 0;
-                    foreach (Body body in this.bodies)
-                    {
-
-
-                        Pen drawPen = this.bodyColors[penIndex++];
-
-                        if (body.IsTracked)
-                        {
-                            filter.UpdateFilter(body); //passes body to filter in joint filter class
-                            CameraSpacePoint[] joints = filter.GetFilteredJoints(); //gets the filtered joints and puts them into an array of(x, y, z) co ordinates with the camera as the origin
-
-                            //CameraSpacePoint[] joints = body.Joints.Values.OfType<Joint>().Select(s => s.Position).ToArray();
-                            GetBodySegmentAngle(joints, body);
-                            // CreatingCsvFiles(joints); //send joints to csv output 
-
-
-
-
-
-                            //=============================  This Point on for drawing on screen ====================================
-
-                            this.DrawClippedEdges(body, dc);
-
-
-                            IReadOnlyDictionary<JointType, Joint> joints2 = body.Joints;
-
-                            // convert the joint points to depth (display) space
-                            Dictionary<JointType, Point> jointPoints = new Dictionary<JointType, Point>();
-
-                            foreach (JointType jointType in joints2.Keys)
-                            {
-                                // sometimes the depth(Z) of an inferred joint may show as negative
-                                // clamp down to 0.1f to prevent coordinatemapper from returning (-Infinity, -Infinity)
-                                CameraSpacePoint position = joints2[jointType].Position;
-                                if (position.Z < 0)
-                                {
-                                    position.Z = InferredZPositionClamp;
-                                }
-
-                                DepthSpacePoint depthSpacePoint = this.coordinateMapper.MapCameraPointToDepthSpace(position);
-                                jointPoints[jointType] = new Point(depthSpacePoint.X, depthSpacePoint.Y);
-                            }
-
-                            this.DrawBody(joints2, jointPoints, dc, drawPen);
-
-                            //this.DrawHand(body.HandLeftState, jointPoints[JointType.HandLeft], dc);
-                            //this.DrawHand(body.HandRightState, jointPoints[JointType.HandRight], dc);
-                        }
-                    }
-
-                    // prevent drawing outside of our render area
-                    this.drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, this.displayWidth, this.displayHeight));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Execute shutdown tasks
-        /// </summary>
-        /// <param name="sender">object sending the event</param>
-        /// <param name="e">event arguments</param>
-        private void MainWindow_Closing(object sender, CancelEventArgs e)
-        {
-            if (this.frameReader != null)
-            {
-                // frameReader is IDisposable
-                this.frameReader.Dispose();
-                this.frameReader = null;
-            }
-
-            if (this.kinectSensor != null)
-            {
-                this.kinectSensor.Close();
-                this.kinectSensor = null;
-            }
-        }
-
-        //Saves the 3d filtered joint positions into a csv file. 
-
-
-        public void CreatingCsvFiles(double angle)
-        {
-            string fileName = "Coordinates.csv";
-            string filePath = "G:\\" + fileName;
-            if (!File.Exists(filePath))
-            {
-                File.Create(filePath).Close();
-            }
-            string delimiter = ",";
-            //  foreach (CameraSpacePoint joint in joints)
-            //  { 
-            //+++++++++++++++++ stuff for angle++++++++++++++++++++//
-            //  if (joint.GetType == ) { };
-
-            //++++++++++++++++++++++++++++++++++
-            string[][] output = new string[][] {
-                    new string[]{"Current Angle", angle.ToString()}
-            //new string[]{joint.X.ToString(),joint.Y.ToString(),joint.Z.ToString()}
-
-                //joint.ToString()} /*add the values that you want inside a csv file. Mostly this function can be used in a foreach loop.*/
-            };
-            int length = output.GetLength(0);
-            StringBuilder sb = new StringBuilder();
-            for (int index = 0; index < length; index++)
-                sb.AppendLine(string.Join(delimiter, output[index]));
-            File.AppendAllText(filePath, sb.ToString()); //check position of this line
-
-            // }
-        }
-
-        public void GetBodySegmentAngle(CameraSpacePoint[] joints, Body body)
-        {
-            CameraSpacePoint rightHipJoint = new CameraSpacePoint();
-            CameraSpacePoint rightKneeJoint = new CameraSpacePoint();
-            CameraSpacePoint rightAnkleJoint = new CameraSpacePoint();
-
-            //ensure points are correct
-
-            for (int i=0; i< body.Joints.Keys.Count();i++)
-            {
-                JointType joint = body.Joints.Keys.ElementAt(i);
-                if (joint.Equals(JointType.HipRight))
-                {
-                    rightHipJoint = joints[i];
-                }
-
-                if (joint.Equals(JointType.KneeRight))
-                {
-                    rightKneeJoint = joints[i];
-                }
-
-                if (joint.Equals(JointType.AnkleRight))
-                {
-                    rightAnkleJoint = joints[i];
-                }
-            }
-
-            double AngleAlpha = AngleCalculator.Process(rightHipJoint, rightKneeJoint, rightAnkleJoint, true, true, true);
-
-            CreatingCsvFiles(AngleAlpha);
-
-        }
-
-        /// <summary>
-        /// Draws a body
-        /// </summary>
-        /// <param name="joints">joints to draw</param>
-        /// <param name="jointPoints">translated positions of joints to draw</param>
-        /// <param name="drawingContext">drawing context to draw to</param>
-        /// <param name="drawingPen">specifies color to draw a specific body</param>
-        private void DrawBody(IReadOnlyDictionary<JointType, Joint> joints, IDictionary<JointType, Point> jointPoints, DrawingContext drawingContext, Pen drawingPen)
-        {
-            // Draw the bones
-            foreach (var bone in this.bones)
-            {
-                this.DrawBone(joints, jointPoints, bone.Item1, bone.Item2, drawingContext, drawingPen);
-            }
-
-            // Draw the joints
-            foreach (JointType jointType in joints.Keys)
-            {
-                Brush drawBrush = null;
-
-                TrackingState trackingState = joints[jointType].TrackingState;
-
-                if (trackingState == TrackingState.Tracked)
-                {
-                    drawBrush = this.trackedJointBrush;
-                }
-                else if (trackingState == TrackingState.Inferred)
-                {
-                    drawBrush = this.inferredJointBrush;
-                }
-
-                if (drawBrush != null)
-                {
-                    drawingContext.DrawEllipse(drawBrush, null, jointPoints[jointType], JointThickness, JointThickness);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Draws one bone of a body (joint to joint)
-        /// </summary>
-        /// <param name="joints">joints to draw</param>
-        /// <param name="jointPoints">translated positions of joints to draw</param>
-        /// <param name="jointType0">first joint of bone to draw</param>
-        /// <param name="jointType1">second joint of bone to draw</param>
-        /// <param name="drawingContext">drawing context to draw to</param>
-        /// /// <param name="drawingPen">specifies color to draw a specific bone</param>
-        private void DrawBone(IReadOnlyDictionary<JointType, Joint> joints, IDictionary<JointType, Point> jointPoints, JointType jointType0, JointType jointType1, DrawingContext drawingContext, Pen drawingPen)
-        {
-            Joint joint0 = joints[jointType0];
-            Joint joint1 = joints[jointType1];
-
-            // If we can't find either of these joints, exit
-            if (joint0.TrackingState == TrackingState.NotTracked ||
-                joint1.TrackingState == TrackingState.NotTracked)
-            {
-                return;
-            }
-
-            // We assume all drawn bones are inferred unless BOTH joints are tracked
-            Pen drawPen = this.inferredBonePen;
-            if ((joint0.TrackingState == TrackingState.Tracked) && (joint1.TrackingState == TrackingState.Tracked))
-            {
-                drawPen = drawingPen;
-            }
-
-            drawingContext.DrawLine(drawPen, jointPoints[jointType0], jointPoints[jointType1]);
-        }
-
-        /// <summary>
-        /// Draws a hand symbol if the hand is tracked: red circle = closed, green circle = opened; blue circle = lasso
-        /// </summary>
-        /// <param name="handState">state of the hand</param>
-        /// <param name="handPosition">position of the hand</param>
-        /// <param name="drawingContext">drawing context to draw to</param>
-        private void DrawHand(HandState handState, Point handPosition, DrawingContext drawingContext)
-        {
-            switch (handState)
-            {
-                case HandState.Closed:
-                    drawingContext.DrawEllipse(this.handClosedBrush, null, handPosition, HandSize, HandSize);
-                    break;
-
-                case HandState.Open:
-                    drawingContext.DrawEllipse(this.handOpenBrush, null, handPosition, HandSize, HandSize);
-                    break;
-
-                case HandState.Lasso:
-                    drawingContext.DrawEllipse(this.handLassoBrush, null, handPosition, HandSize, HandSize);
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Draws indicators to show which edges are clipping body data
-        /// </summary>
-        /// <param name="body">body to draw clipping information for</param>
-        /// <param name="drawingContext">drawing context to draw to</param>
-        private void DrawClippedEdges(Body body, DrawingContext drawingContext)
-        {
-            FrameEdges clippedEdges = body.ClippedEdges;
-
-            if (clippedEdges.HasFlag(FrameEdges.Bottom))
-            {
-                drawingContext.DrawRectangle(
-                    Brushes.Red,
-                    null,
-                    new Rect(0, this.displayHeight - ClipBoundsThickness, this.displayWidth, ClipBoundsThickness));
-            }
-
-            if (clippedEdges.HasFlag(FrameEdges.Top))
-            {
-                drawingContext.DrawRectangle(
-                    Brushes.Red,
-                    null,
-                    new Rect(0, 0, this.displayWidth, ClipBoundsThickness));
-            }
-
-            if (clippedEdges.HasFlag(FrameEdges.Left))
-            {
-                drawingContext.DrawRectangle(
-                    Brushes.Red,
-                    null,
-                    new Rect(0, 0, ClipBoundsThickness, this.displayHeight));
-            }
-
-            if (clippedEdges.HasFlag(FrameEdges.Right))
-            {
-                drawingContext.DrawRectangle(
-                    Brushes.Red,
-                    null,
-                    new Rect(this.displayWidth - ClipBoundsThickness, 0, ClipBoundsThickness, this.displayHeight));
-            }
-        }
-
-        /// <summary>
-        /// Handles the event which the sensor becomes unavailable (E.g. paused, closed, unplugged).
-        /// </summary>
-        /// <param name="sender">object sending the event</param>
-        /// <param name="e">event arguments</param>
-        private void Sensor_IsAvailableChanged(object sender, IsAvailableChangedEventArgs e)
-        {
-            // on failure, set the status text
-            this.StatusText = this.kinectSensor.IsAvailable ? Properties.Resources.RunningStatusText
-                                                            : Properties.Resources.SensorNotAvailableStatusText;
-        }
-
-
+// The first time GetAndRefreshBodyData is called, Kinect will allocate each Body in the array.
+// As long as those body objects are not disposed and not set to null in the array,
+// those body objects will be re-used.
+bodyFrame.GetAndRefreshBodyData(this.bodies);
+dataReceived = true;
+}
+}
+
+if (dataReceived)
+{
+using (DrawingContext dc = this.drawingGroup.Open())
+{
+// Draw a transparent background to set the render size
+//dc.DrawRectangle(Brushes.Black, null, new Rect(0.0, 0.0, this.displayWidth, this.displayHeight));
+dc.DrawImage(this.infraredImage, new Rect(0, 0, this.infraredImage.PixelWidth, this.infraredImage.PixelHeight));
+
+int penIndex = 0;
+foreach (Body body in this.bodies)
+{
+
+
+Pen drawPen = this.bodyColors[penIndex++];
+
+if (body.IsTracked)
+{
+filter.UpdateFilter(body); //passes body to filter in joint filter class
+CameraSpacePoint[] joints = filter.GetFilteredJoints(); //gets the filtered joints and puts them into an array of(x, y, z) co ordinates with the camera as the origin
+
+//CameraSpacePoint[] joints = body.Joints.Values.OfType<Joint>().Select(s => s.Position).ToArray();
+GetBodySegmentAngle(joints, body);
+// CreatingCsvFiles(joints); //send joints to csv output 
+
+
+
+
+
+//=============================  This Point on for drawing on screen ====================================
+
+this.DrawClippedEdges(body, dc);
+
+
+IReadOnlyDictionary<JointType, Joint> joints2 = body.Joints;
+
+// convert the joint points to depth (display) space
+Dictionary<JointType, Point> jointPoints = new Dictionary<JointType, Point>();
+
+foreach (JointType jointType in joints2.Keys)
+{
+// sometimes the depth(Z) of an inferred joint may show as negative
+// clamp down to 0.1f to prevent coordinatemapper from returning (-Infinity, -Infinity)
+CameraSpacePoint position = joints2[jointType].Position;
+if (position.Z < 0)
+{
+position.Z = InferredZPositionClamp;
+}
+
+DepthSpacePoint depthSpacePoint = this.coordinateMapper.MapCameraPointToDepthSpace(position);
+jointPoints[jointType] = new Point(depthSpacePoint.X, depthSpacePoint.Y);
+}
+
+this.DrawBody(joints2, jointPoints, dc, drawPen);
+
+//this.DrawHand(body.HandLeftState, jointPoints[JointType.HandLeft], dc);
+//this.DrawHand(body.HandRightState, jointPoints[JointType.HandRight], dc);
+}
+}
+
+// prevent drawing outside of our render area
+this.drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, this.displayWidth, this.displayHeight));
+}
+}
+}
+
+/// <summary>
+/// Execute shutdown tasks
+/// </summary>
+/// <param name="sender">object sending the event</param>
+/// <param name="e">event arguments</param>
+private void MainWindow_Closing(object sender, CancelEventArgs e)
+{
+if (this.frameReader != null)
+{
+// frameReader is IDisposable
+this.frameReader.Dispose();
+this.frameReader = null;
+}
+
+if (this.kinectSensor != null)
+{
+this.kinectSensor.Close();
+this.kinectSensor = null;
+}
+}
+
+//Saves the 3d filtered joint positions into a csv file. 
+
+
+public void CreatingCsvFiles(double angle)
+{
+string fileName = "Coordinates.csv";
+string filePath = "G:\\" + fileName;
+if (!File.Exists(filePath))
+{
+File.Create(filePath).Close();
+}
+string delimiter = ",";
+//  foreach (CameraSpacePoint joint in joints)
+//  { 
+//+++++++++++++++++ stuff for angle++++++++++++++++++++//
+//  if (joint.GetType == ) { };
+
+//++++++++++++++++++++++++++++++++++
+string[][] output = new string[][] {
+new string[]{"Current Angle", angle.ToString()}
+//new string[]{joint.X.ToString(),joint.Y.ToString(),joint.Z.ToString()}
+
+//joint.ToString()} /*add the values that you want inside a csv file. Mostly this function can be used in a foreach loop.*/
+        /*     };
+             int length = output.GetLength(0);
+             StringBuilder sb = new StringBuilder();
+             for (int index = 0; index < length; index++)
+                 sb.AppendLine(string.Join(delimiter, output[index]));
+             File.AppendAllText(filePath, sb.ToString()); //check position of this line
+
+             // }
+         }
+
+         public void GetBodySegmentAngle(CameraSpacePoint[] joints, Body body)
+         {
+             CameraSpacePoint rightHipJoint = new CameraSpacePoint();
+             CameraSpacePoint rightKneeJoint = new CameraSpacePoint();
+             CameraSpacePoint rightAnkleJoint = new CameraSpacePoint();
+
+             //ensure points are correct
+
+             for (int i=0; i< body.Joints.Keys.Count();i++)
+             {
+                 JointType joint = body.Joints.Keys.ElementAt(i);
+                 if (joint.Equals(JointType.HipRight))
+                 {
+                     rightHipJoint = joints[i];
+                 }
+
+                 if (joint.Equals(JointType.KneeRight))
+                 {
+                     rightKneeJoint = joints[i];
+                 }
+
+                 if (joint.Equals(JointType.AnkleRight))
+                 {
+                     rightAnkleJoint = joints[i];
+                 }
+             }
+
+             double AngleAlpha = AngleCalculator.Process(rightHipJoint, rightKneeJoint, rightAnkleJoint, true, true, true);
+
+             CreatingCsvFiles(AngleAlpha);
+
+         }
+
+         /// <summary>
+         /// Draws a body
+         /// </summary>
+         /// <param name="joints">joints to draw</param>
+         /// <param name="jointPoints">translated positions of joints to draw</param>
+         /// <param name="drawingContext">drawing context to draw to</param>
+         /// <param name="drawingPen">specifies color to draw a specific body</param>
+         private void DrawBody(IReadOnlyDictionary<JointType, Joint> joints, IDictionary<JointType, Point> jointPoints, DrawingContext drawingContext, Pen drawingPen)
+         {
+             // Draw the bones
+             foreach (var bone in this.bones)
+             {
+                 this.DrawBone(joints, jointPoints, bone.Item1, bone.Item2, drawingContext, drawingPen);
+             }
+
+             // Draw the joints
+             foreach (JointType jointType in joints.Keys)
+             {
+                 Brush drawBrush = null;
+
+                 TrackingState trackingState = joints[jointType].TrackingState;
+
+                 if (trackingState == TrackingState.Tracked)
+                 {
+                     drawBrush = this.trackedJointBrush;
+                 }
+                 else if (trackingState == TrackingState.Inferred)
+                 {
+                     drawBrush = this.inferredJointBrush;
+                 }
+
+                 if (drawBrush != null)
+                 {
+                     drawingContext.DrawEllipse(drawBrush, null, jointPoints[jointType], JointThickness, JointThickness);
+                 }
+             }
+         }
+
+         /// <summary>
+         /// Draws one bone of a body (joint to joint)
+         /// </summary>
+         /// <param name="joints">joints to draw</param>
+         /// <param name="jointPoints">translated positions of joints to draw</param>
+         /// <param name="jointType0">first joint of bone to draw</param>
+         /// <param name="jointType1">second joint of bone to draw</param>
+         /// <param name="drawingContext">drawing context to draw to</param>
+         /// /// <param name="drawingPen">specifies color to draw a specific bone</param>
+         private void DrawBone(IReadOnlyDictionary<JointType, Joint> joints, IDictionary<JointType, Point> jointPoints, JointType jointType0, JointType jointType1, DrawingContext drawingContext, Pen drawingPen)
+         {
+             Joint joint0 = joints[jointType0];
+             Joint joint1 = joints[jointType1];
+
+             // If we can't find either of these joints, exit
+             if (joint0.TrackingState == TrackingState.NotTracked ||
+                 joint1.TrackingState == TrackingState.NotTracked)
+             {
+                 return;
+             }
+
+             // We assume all drawn bones are inferred unless BOTH joints are tracked
+             Pen drawPen = this.inferredBonePen;
+             if ((joint0.TrackingState == TrackingState.Tracked) && (joint1.TrackingState == TrackingState.Tracked))
+             {
+                 drawPen = drawingPen;
+             }
+
+             drawingContext.DrawLine(drawPen, jointPoints[jointType0], jointPoints[jointType1]);
+         }
+
+         /// <summary>
+         /// Draws a hand symbol if the hand is tracked: red circle = closed, green circle = opened; blue circle = lasso
+         /// </summary>
+         /// <param name="handState">state of the hand</param>
+         /// <param name="handPosition">position of the hand</param>
+         /// <param name="drawingContext">drawing context to draw to</param>
+         private void DrawHand(HandState handState, Point handPosition, DrawingContext drawingContext)
+         {
+             switch (handState)
+             {
+                 case HandState.Closed:
+                     drawingContext.DrawEllipse(this.handClosedBrush, null, handPosition, HandSize, HandSize);
+                     break;
+
+                 case HandState.Open:
+                     drawingContext.DrawEllipse(this.handOpenBrush, null, handPosition, HandSize, HandSize);
+                     break;
+
+                 case HandState.Lasso:
+                     drawingContext.DrawEllipse(this.handLassoBrush, null, handPosition, HandSize, HandSize);
+                     break;
+             }
+         }
+
+         /// <summary>
+         /// Draws indicators to show which edges are clipping body data
+         /// </summary>
+         /// <param name="body">body to draw clipping information for</param>
+         /// <param name="drawingContext">drawing context to draw to</param>
+         private void DrawClippedEdges(Body body, DrawingContext drawingContext)
+         {
+             FrameEdges clippedEdges = body.ClippedEdges;
+
+             if (clippedEdges.HasFlag(FrameEdges.Bottom))
+             {
+                 drawingContext.DrawRectangle(
+                     Brushes.Red,
+                     null,
+                     new Rect(0, this.displayHeight - ClipBoundsThickness, this.displayWidth, ClipBoundsThickness));
+             }
+
+             if (clippedEdges.HasFlag(FrameEdges.Top))
+             {
+                 drawingContext.DrawRectangle(
+                     Brushes.Red,
+                     null,
+                     new Rect(0, 0, this.displayWidth, ClipBoundsThickness));
+             }
+
+             if (clippedEdges.HasFlag(FrameEdges.Left))
+             {
+                 drawingContext.DrawRectangle(
+                     Brushes.Red,
+                     null,
+                     new Rect(0, 0, ClipBoundsThickness, this.displayHeight));
+             }
+
+             if (clippedEdges.HasFlag(FrameEdges.Right))
+             {
+                 drawingContext.DrawRectangle(
+                     Brushes.Red,
+                     null,
+                     new Rect(this.displayWidth - ClipBoundsThickness, 0, ClipBoundsThickness, this.displayHeight));
+             }
+         }
+
+         /// <summary>
+         /// Handles the event which the sensor becomes unavailable (E.g. paused, closed, unplugged).
+         /// </summary>
+         /// <param name="sender">object sending the event</param>
+         /// <param name="e">event arguments</param>
+         private void Sensor_IsAvailableChanged(object sender, IsAvailableChangedEventArgs e)
+         {
+             // on failure, set the status text
+             this.StatusText = this.kinectSensor.IsAvailable ? Properties.Resources.RunningStatusText
+                                                             : Properties.Resources.SensorNotAvailableStatusText;
+         }
+         */
+        //Code added for bitmap
+        
     }
 }

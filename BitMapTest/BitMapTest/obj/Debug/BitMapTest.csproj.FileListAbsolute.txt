@@ -1,0 +1,9 @@
+c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\bin\Debug\BitMapTest.exe.config
+c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\bin\Debug\BitMapTest.exe
+c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\bin\Debug\BitMapTest.pdb
+c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\obj\Debug\BitMapTest.csprojResolveAssemblyReference.cache
+c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\obj\Debug\BitMapTest.Bitmaptest.resources
+c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\obj\Debug\BitMapTest.Properties.Resources.resources
+c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\obj\Debug\BitMapTest.csproj.GenerateResource.Cache
+c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\obj\Debug\BitMapTest.exe
+c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\obj\Debug\BitMapTest.pdb
