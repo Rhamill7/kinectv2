@@ -7,3 +7,12 @@ c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\obj\
 c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\obj\Debug\BitMapTest.csproj.GenerateResource.Cache
 c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\obj\Debug\BitMapTest.exe
 c:\users\robbie\documents\visual studio 2015\Projects\BitMapTest\BitMapTest\obj\Debug\BitMapTest.pdb
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\bin\Debug\BitMapTest.exe.config
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\obj\Debug\BitMapTest.exe
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\obj\Debug\BitMapTest.pdb
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\bin\Debug\BitMapTest.exe
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\bin\Debug\BitMapTest.pdb
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\obj\Debug\BitMapTest.csprojResolveAssemblyReference.cache
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\obj\Debug\BitMapTest.Bitmaptest.resources
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\obj\Debug\BitMapTest.Properties.Resources.resources
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\obj\Debug\BitMapTest.csproj.GenerateResource.Cache
