@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BitMapTest.Properties
+namespace BitmapTest.Properties
 {
 
 

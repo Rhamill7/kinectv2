@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BitMapTest
+namespace BitmapTest
 {
     static class Program
     {
@@ -14,9 +14,12 @@ namespace BitMapTest
         [STAThread]
         static void Main()
         {
+           
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Bitmaptest());
+            Tracking track = new Tracking();
+            MenuItems menu = new MenuItems();
         }
     }
 }

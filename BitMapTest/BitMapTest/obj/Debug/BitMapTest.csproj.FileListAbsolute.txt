@@ -16,3 +16,4 @@ F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\obj\Debug\BitMapTest.csprojRe
 F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\obj\Debug\BitMapTest.Bitmaptest.resources
 F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\obj\Debug\BitMapTest.Properties.Resources.resources
 F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\obj\Debug\BitMapTest.csproj.GenerateResource.Cache
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\obj\Debug\BitMapTest.Form2.resources
