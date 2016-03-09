@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -16,13 +17,14 @@ namespace BitmapTest
 {
     public partial class Bitmaptest : Form
     {
-        //Global Variables for pixel data?
-        //Color[,] pixelData = null;
+        
         List<Point> pixelPoint = new List<Point>();
-        private int frameNo;
-       // private string filePath;
+        List<bool> frameJointList = new List<bool>();
+        private int frameNo=0;
+        private bool frameSelected = false;
         Tracking track = new Tracking();
         MenuItems menu = new MenuItems();
+
         public Bitmaptest()
         {
             InitializeComponent();
@@ -30,18 +32,12 @@ namespace BitmapTest
 
         private void Bitmaptest_Load(object sender, EventArgs e)
         {
-           
-            //read image
-            // Bitmap myBitmap = new Bitmap("H:\\MarkerlessSamples\\20160125_132341_00\\depth\\0.png");
-    //        Bitmap myBitmap = getBitmap();
-         
 
-            //loadimage onto Screen
-      //      pictureBox1.Image = myBitmap;
-
-            // add event handle to enable click
-            this.pictureBox1.MouseDown += new MouseEventHandler(this.pictureBox1_MouseDown);
-
+         //   if (checkBox1.Checked)
+         //   {
+                // add event handle to enable click
+                this.pictureBox1.MouseDown += new MouseEventHandler(this.pictureBox1_MouseDown);
+        //    }
         }
 
 
@@ -49,43 +45,48 @@ namespace BitmapTest
         {
             Point P = new Point(e.X, e.Y);
 
-
-            //for (int i = 0; i < pixelData.Length ; i++)
-            //{
-            // for (int j = 0; j < pixelData.Length; i++)
-            //  {
-            //     string bob = pixelData.GetValue(i).ToString(); 
-            //  pixelData.GetValue
-            //bob = pixelData.ToString
-            // MessageBox.Show(bob);
-          //  string bob = "bob";
-           
-
-            try
+            if (frameSelected == true)
             {
-                Bitmap myBitmap = getBitmap(menu.filePathLocation() + frameNo + ".png");
-                myBitmap.SetPixel(e.X, e.Y, Color.Red);
-           //     pixelPoint.Add(new Point(e.X, e.Y));
-                pictureBox1.Image = myBitmap;
-                track.setJointLocations(frameNo,P);
+                if (checkBox1.Checked)
+                {   
+                    if(frameJointList[frameNo]==false) { 
+                    try
+                    {
+                        Bitmap myBitmap = getBitmap(menu.filePathLocation() + frameNo + ".png");
+                        myBitmap.SetPixel(e.X, e.Y, Color.Red);
+                        pictureBox1.Image = myBitmap;
+                        track.setJointLocations(frameNo, P);
+                            frameJointList.Insert(frameNo, true);
+                    }
+                      catch 
+                    {
+                        MessageBox.Show("Please click somewhere on the picture.");
+                    }
+
+                    }
+                       else { MessageBox.Show("You have already picked a joint for this frame");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please enable Joint selection.");
+                }
             }
-            catch (Exception b)
+
+            else
             {
-                MessageBox.Show("Error " + b);                
+                MessageBox.Show("Please select the first frame.");
             }
         }
-        //     else {
-        //       MessageBox.Show("Please try again.");
-        // }
-        //}
+      
 
         public Bitmap getBitmap(string input)
         {
-
+            Bitmap myBitmap;
             //Bitmap myBitmap = new Bitmap("H:\\MarkerlessSamples\\20160125_132341_00\\depth\\0.png");
-
-            Bitmap myBitmap = new Bitmap(input);
-
+            
+                myBitmap = new Bitmap(input);
+            
             return myBitmap;
         }
 
@@ -98,39 +99,66 @@ namespace BitmapTest
         //    Bitmap myBitMap = getBitmap(input);
             pictureBox1.Image = myBitMap;
             frameNo = 0;
+            frameSelected = true;
+            frameJointList.Add(false);
             // MessageBox.Show(input);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             //Previous frame
-           // MessageBox.Show("This is button 2");
-            if(frameNo == 0) {
-                MessageBox.Show("Error already on the first frame.");
-            }
-            else
+            // MessageBox.Show("This is button 2");
+            if (frameSelected == true)
             {
-                frameNo--;
-                string input = menu.filePathLocation() + frameNo + ".png";
-                Bitmap myBitMap = getBitmap(input);
-                pictureBox1.Image = myBitMap;
-                
+
+                if (frameNo == 0)
+                {
+                    MessageBox.Show("Error already on the first frame.");
+                }
+                else
+                {
+                    frameNo--;
+                    string input = menu.filePathLocation() + frameNo + ".png";
+                    Bitmap myBitMap = getBitmap(input);
+                    pictureBox1.Image = myBitMap;
+
+                }
             }
+            else {
+                MessageBox.Show("Please select the first frame.");
+            }
+        
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             //Next frame
-          //  MessageBox.Show("This is Button 1");
-            try {
-                frameNo++;
-                string input = menu.filePathLocation() + frameNo + ".png";
-                Bitmap myBitMap = getBitmap(input);
-                pictureBox1.Image = myBitMap;
-            }
-            catch (Exception a)
+            //  MessageBox.Show("This is Button 1");
+            if (frameSelected == true)
             {
-                MessageBox.Show("Error " + a);
+
+                try
+                {
+                    // jointPicked = false;
+                    frameNo++;
+                    string input = menu.filePathLocation() + frameNo + ".png";
+                    try
+                    { Bitmap myBitMap = getBitmap(input);
+
+                        pictureBox1.Image = myBitMap;
+                        frameJointList.Add(false);
+                    }
+                    catch { MessageBox.Show("You have reached the last frame");
+                        frameNo--;
+                    }
+                    }
+                catch (Exception a)
+                {
+                    MessageBox.Show("Error " + a);
+                }
+            }
+            else{
+                MessageBox.Show("Please select the first frame.");
             }
      
 
@@ -138,8 +166,8 @@ namespace BitmapTest
 
         private void jointTrackingToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Please make sure you have selected joints on all desired frames.");
             this.Hide();
-          //  Bitmaptest.Form2 f2 = new BitMaptest.Form2();
              Form f2 = new Form2(track);
             f2.Show();
         }
@@ -148,5 +176,7 @@ namespace BitmapTest
         {
             MessageBox.Show("You are already on joint selection");
         }
+
+       
     }
 }

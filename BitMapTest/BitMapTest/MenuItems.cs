@@ -15,17 +15,27 @@ using Microsoft.VisualBasic;
 public class MenuItems
     {
     string filePath;
+    Bitmap myBitMap;
 
     public Bitmap openFile()
         {
           filePath = Interaction.InputBox("Please enter a valid file path to the folder of depth images",
          "File Path", "C:\\Users\\Robbie\\Pictures\\");
-            string input = filePath + "0" + ".png";
-            Bitmap myBitMap = new Bitmap(input);
-           //this.pictureBox1.Image = myBitMap;
-            //frameNo = 0;
-            return myBitMap;
+        if (filePath.Length > 0)
+        {
 
+            string input = filePath + "0" + ".png";
+
+            // Bitmap 
+            try {
+                myBitMap = new Bitmap(input);
+            } catch { MessageBox.Show("Invalid File Path. Please Select a folder containing only depth images."); }
+            //this.pictureBox1.Image = myBitMap;
+            //frameNo = 0;
+            return myBitMap; }
+        else { }
+        
+        return myBitMap;
         }
 
         public string filePathLocation()

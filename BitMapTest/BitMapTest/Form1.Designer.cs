@@ -37,6 +37,7 @@
             this.jointTrackingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -89,14 +90,14 @@
             // jointSelectionToolStripMenuItem
             // 
             this.jointSelectionToolStripMenuItem.Name = "jointSelectionToolStripMenuItem";
-            this.jointSelectionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.jointSelectionToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.jointSelectionToolStripMenuItem.Text = "Joint Selection";
             this.jointSelectionToolStripMenuItem.Click += new System.EventHandler(this.jointSelectionToolStripMenuItem_Click);
             // 
             // jointTrackingToolStripMenuItem
             // 
             this.jointTrackingToolStripMenuItem.Name = "jointTrackingToolStripMenuItem";
-            this.jointTrackingToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.jointTrackingToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.jointTrackingToolStripMenuItem.Text = "Joint Tracking";
             this.jointTrackingToolStripMenuItem.Click += new System.EventHandler(this.jointTrackingToolStripMenuItem_Click);
             // 
@@ -120,11 +121,22 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(322, 1);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(131, 17);
+            this.checkBox1.TabIndex = 5;
+            this.checkBox1.Text = "Enable Joint Selection";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Bitmaptest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(688, 471);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
@@ -152,6 +164,7 @@
         private System.Windows.Forms.ToolStripMenuItem jointTrackingToolStripMenuItem;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
