@@ -38,33 +38,31 @@ namespace BitmapTest
                 // Pen red = new Pen(Color.Red);
                 if (checkBox1.Checked)
                 {
-                    Graphics gBmp = Graphics.FromImage(myBitMap);
-                    Point P = track.getJointLocations(frameNo);
-                    if (P.X == 0 & P.Y == 0)
-                      {
-                        MessageBox.Show("No joint was selected in tracking");
-                        return;
-                     }
-                 
-                  
-                    pictureBox1.Image = myBitMap;
-                 
-                    Color red = Color.FromArgb(0x60, 0xff, 0, 0);
-                    Pen redPen = new Pen(red);
-                    gBmp.DrawEllipse(redPen, P.X, P.Y, 160, 160);    
-                    gBmp.Dispose();
-                    redPen.Dispose();
+                   
+                  //  Point P = track.getJointLocations(frameNo);
+                   // if (P.X == 0 & P.Y == 0)
+                    //  {
+                     //   MessageBox.Show("No joint was selected in tracking");
+                      //  return;
+                     //}
+               //     pictureBox1.Image = myBitMap;
+                 //   Graphics gBmp = Graphics.FromImage(myBitMap);
+                   // Color red = Color.FromArgb(0x60, 0xff, 0, 0);
+                   // Pen redPen = new Pen(red);
+                   // gBmp.DrawEllipse(redPen, P.X, P.Y, 160, 160);    
+                   // gBmp.Dispose();
+                  //  redPen.Dispose();
 
                 }
 
                 else 
                 {
                     // Draw myBitmap to the screen.
-                    g.Graphics.DrawImage(myBitMap, 0, 0, myBitMap.Width,
-                        myBitMap.Height);
+               //     g.Graphics.DrawImage(myBitMap, 0, 0, myBitMap.Width,
+                //        myBitMap.Height);
                     //   Graphics gBmp = Graphics.FromImage(myBitMap);
                     pictureBox1.Image = myBitMap;
-                    myBitMap.makeTransparent();
+                 //   myBitMap.makeTransparent();
 
                    // PictureBox two = new PictureBox();
                     //two.SetBounds(0, 24, 733, 486);
@@ -169,6 +167,69 @@ namespace BitmapTest
             } else
             {
                 MessageBox.Show("Please select the first frame.");
+            }
+
+        }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+          //  string joint;
+            // Get selected index, and then make sure it is valid.
+            int selected = checkedListBox1.SelectedIndex;
+            int rad = 30;
+            if (selected != -1)
+            {
+                this.Text = checkedListBox1.Items[selected].ToString();
+            }
+
+            if (selected == 0)
+            {
+
+                Point P = track.getAvgHipLocations(frameNo);
+               // if (P.X == 0 & P.Y == 0)
+                //{
+                 //   MessageBox.Show(P.ToString());
+                  //  return;
+                //}
+                pictureBox1.Image = myBitMap;
+                Graphics gBmp = Graphics.FromImage(myBitMap);
+                Color red = Color.FromArgb(0x60, 0xff, 0, 0);
+                Pen redPen = new Pen(red);
+                gBmp.DrawEllipse(redPen, P.X-rad, P.Y-rad, 60, 60);
+                //gBmp.Dispose();
+                //redPen.Dispose();
+            }
+            if (selected == 1)
+            {
+                Point P = track.getAvgKneeLocations(frameNo);
+                // if (P.X == 0 & P.Y == 0)
+                //{
+                //   MessageBox.Show(P.ToString());
+                //  return;
+                //}
+                pictureBox1.Image = myBitMap;
+                Graphics gBmp2 = Graphics.FromImage(myBitMap);
+                Color green = Color.FromArgb(0x60, 0, 0xff, 0);
+                Pen greenPen = new Pen(green);
+                gBmp2.DrawEllipse(greenPen, P.X-rad, P.Y-rad, 60, 60);
+                //gBmp.Dispose();
+                //redPen.Dispose();
+            }
+            if (selected == 2)
+            {
+                Point P = track.getAvgAnkleLocations(frameNo);
+                // if (P.X == 0 & P.Y == 0)
+                //{
+                //   MessageBox.Show(P.ToString());
+                //  return;
+                //}
+                pictureBox1.Image = myBitMap;
+                Graphics gBmp3 = Graphics.FromImage(myBitMap);
+                Color blue = Color.FromArgb(0x60, 0, 0, 0xff);
+                Pen bluePen = new Pen(blue);
+                gBmp3.DrawEllipse(bluePen, P.X-rad, P.Y-rad, 60, 60);
+                //gBmp.Dispose();
+                //redPen.Dispose();
             }
 
         }

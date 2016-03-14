@@ -32,7 +32,8 @@ public class MenuItems
             } catch { MessageBox.Show("Invalid File Path. Please Select a folder containing only depth images."); }
             //this.pictureBox1.Image = myBitMap;
             //frameNo = 0;
-            return myBitMap; }
+            return myBitMap;
+        }
         else { }
         
         return myBitMap;

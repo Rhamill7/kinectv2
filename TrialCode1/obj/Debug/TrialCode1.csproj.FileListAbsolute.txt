@@ -49,3 +49,6 @@ C:\Users\yemx2\Desktop\TrialCode3\TrialCode2\TrialCode2\TrialCode1\obj\Debug\Tri
 E:\TrialCode4\TrialCode1\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config
 E:\TrialCode4\TrialCode1\obj\Debug\BodyBasics-WPF.exe
 E:\TrialCode4\TrialCode1\obj\Debug\BodyBasics-WPF.pdb
+F:\Uni Work\PROJECT\kinectv2\TrialCode1\bin\AnyCPU\Debug\BodyBasics-WPF.exe.config
+F:\Uni Work\PROJECT\kinectv2\TrialCode1\obj\Debug\BodyBasics-WPF.exe
+F:\Uni Work\PROJECT\kinectv2\TrialCode1\obj\Debug\BodyBasics-WPF.pdb

@@ -22,6 +22,7 @@ namespace BitmapTest
         List<bool> frameJointList = new List<bool>();
         private int frameNo=0;
         private bool frameSelected = false;
+        string joint;
         Tracking track = new Tracking();
         MenuItems menu = new MenuItems();
 
@@ -47,29 +48,31 @@ namespace BitmapTest
 
             if (frameSelected == true)
             {
-                if (checkBox1.Checked)
+                if (checkBox1.Checked && (groupBox1.Controls.OfType<RadioButton>().Any(x => x.Checked)))
                 {   
-                    if(frameJointList[frameNo]==false) { 
+                    //if(frameJointList[frameNo]==false) { 
                     try
                     {
                         Bitmap myBitmap = getBitmap(menu.filePathLocation() + frameNo + ".png");
-                        myBitmap.SetPixel(e.X, e.Y, Color.Red);
+                        myBitmap.SetPixel(P.X, P.Y, Color.Red);
                         pictureBox1.Image = myBitmap;
-                        track.setJointLocations(frameNo, P);
-                            frameJointList.Insert(frameNo, true);
+                        MessageBox.Show(P.ToString());
+                        track.setJointLocations(frameNo,P,joint);
+
+                           // frameJointList.Insert(frameNo, true);
                     }
-                      catch 
+                      catch (Exception r)
                     {
-                        MessageBox.Show("Please click somewhere on the picture.");
+                        MessageBox.Show(r + "Please click somewhere on the picture.");
                     }
 
-                    }
-                       else { MessageBox.Show("You have already picked a joint for this frame");
-                    }
+                    //}
+                      // else { MessageBox.Show("You have already picked a joint for this frame");
+                    //}
                 }
                 else
                 {
-                    MessageBox.Show("Please enable Joint selection.");
+                    MessageBox.Show("Please enable Joint selection and pick the joint of interest.");
                 }
             }
 
@@ -177,6 +180,29 @@ namespace BitmapTest
             MessageBox.Show("You are already on joint selection");
         }
 
-       
+      
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+             joint = "hip";
+      //      MessageBox.Show(joint);
+
+        }
+
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            joint = "knee";
+        //    MessageBox.Show(joint);
+
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            joint = "ankle";
+          //  MessageBox.Show(joint);
+
+        }
+
+      
     }
 }
