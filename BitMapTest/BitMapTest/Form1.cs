@@ -74,14 +74,14 @@ namespace BitmapTest
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-         Point polyPoint = new Point(e.X, e.Y);
+            Point polyPoint = new Point(e.X, e.Y);
             polygon.Add(polyPoint);
             pictureBox1_Paint();
         }
         private void pictureBox1_Paint()
         {
-          
-                Rectangle cloneRect = new Rectangle(0, 0, myBitmap.Width, myBitmap.Height);
+
+            Rectangle cloneRect = new Rectangle(0, 0, myBitmap.Width, myBitmap.Height);
             System.Drawing.Imaging.PixelFormat format = myBitmap.PixelFormat;
             Bitmap cloneBitmap = myBitmap.Clone(cloneRect, format);
             pictureBox1.Image = cloneBitmap;
@@ -89,7 +89,7 @@ namespace BitmapTest
             {
                 if (polygon.Count > 1)
                 {
-                    for (int i = 0; i < polygon.Count-1; i++)
+                    for (int i = 0; i < polygon.Count - 1; i++)
                     {
                         g.DrawLine(_Pen, polygon[i].X, polygon[i].Y, polygon[i + 1].X, polygon[i + 1].Y);
                     }
@@ -98,50 +98,13 @@ namespace BitmapTest
                 {
                     g.DrawLine(_Pen, polygon[0].X, polygon[0].Y, polygon[0].X, polygon[0].Y);
                 }
-                
+
             }
             pictureBox1.Invalidate();
 
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            //   Point[] coversion = new Point[polygon.Count];
-            Point[] conversion = polygon.ToArray();
-            //}
-            //private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-            //{
-            //    _Previous = new Point(e.X, e.Y);
-            //    pictureBox1_MouseMove(sender, e);
-            //}
-            //private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
-            //{
-
-
-            // if (_Previous != null)
-            //{
-            //  if (pictureBox1.Image == null)
-            //{
-            //            Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            //            using (Graphics g = Graphics.FromImage(bmp))
-            //            {
-            //                g.Clear(Color.White);
-            //            }
-            //            pictureBox1.Image = bmp;
-            //        }
-         //   using (Graphics g = Graphics.FromImage(myBitmap)) 
-        //        {
-        //            g.DrawLine(_Pen, conversion[0].X, conversion[0].Y, conversion[1].X, conversion[1].Y);
-        //        }
-       //         pictureBox1.Invalidate();
-        //        _Previous = new Point(e.X, e.Y);
-        //    }
-        }
-
-        //private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
-        //{
-        //    _Previous = null;
-        //}
+       
 
         /************************IsPoint in polygon algorithm*************/
         private bool IsPointInPolygon(Point[] polygon, Point point)
@@ -157,10 +120,7 @@ namespace BitmapTest
             }
             return isInside;
         }
-
-
-
-
+        
         /******************************************************************************/
 
 
@@ -226,18 +186,19 @@ namespace BitmapTest
         {
             OpenFileDialog ofd = new OpenFileDialog();
 
-            if( ofd.ShowDialog() == DialogResult.OK) {
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
                 //  Bitmap myBitMap = menu.openFile();
                 // filePath = Interaction.InputBox("Please enter a valid file path to the folder of depth images",
                 //  "File Path", "C:\\Users\\Robbie\\Pictures\\");
                 //string input = filePath + "0" + ".png";
                 string input = ofd.FileName;
                 myBitmap = getBitmap(input);
-            pictureBox1.Image = myBitmap;
+                pictureBox1.Image = myBitmap;
                 polygon.Clear();
-            frameNo = 0;
-            frameSelected = true;
-            frameJointList.Add(false);
+                frameNo = 0;
+                frameSelected = true;
+                frameJointList.Add(false);
                 //  Bitmap myBitmap = getBitmap(menu.filePathLocation() + frameNo + ".png");
                 // MessageBox.Show(input);
             }
@@ -505,7 +466,14 @@ namespace BitmapTest
         /**************************Save data from input*************/
         private void saveDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Random rnd = new Random();
+            //Random rnd = new Random();
+            //possible work around on theory of point in polygon
+
+            Point start = polygon.First();
+            polygon.Add(start);
+
+
+            Point[] conversion = polygon.ToArray();
             string fileName = "trainingData.csv";
             //string fileName = "TrainingDataSimple.csv";
             string filePath = "H:\\" + fileName;
@@ -522,11 +490,14 @@ namespace BitmapTest
                 for (int y = 0; y < myBitmap.Height; y++)
                 {
                     //test for third label value
-                    var card = rnd.Next(2);
+                    var label = 0;
                     var first = x.ToString();
                     var second = y.ToString();
+                    Point current = new Point(x, y);
+                    bool check = IsPointInPolygon(conversion, current);
+                    if (check == true) { label = 1; }
                     //  string newLine = (first + delimiter +second + delimiter + lbls);
-                    var newLine2 = string.Format("{0},{1},{2}", first, second, card.ToString());
+                    var newLine2 = string.Format("{0},{1},{2}", first, second, label.ToString());
                     csv.AppendLine(newLine2);
 
                     //joint.ToString()} 
@@ -536,12 +507,16 @@ namespace BitmapTest
             }
 
             File.WriteAllText(filePath, csv.ToString());
+            MessageBox.Show("Learning finished!");
         }
 
 
         /*******************************running on new data*****************************************/
         private void button4_Click(object sender, EventArgs e)
         {
+            List<Point> colourList = new List<Point>();
+
+
             string fileName = "TestingData.csv";
             //string fileName = "TestingDataSimple.csv";
             string filePath = "H:\\" + fileName;
@@ -553,7 +528,7 @@ namespace BitmapTest
                 var newLine = string.Format("{0},{1},{2}", "X", "Y", "G");
                 csv.AppendLine(newLine);
                 //    string delimiter = ",";
-                int g = 0;
+                //int g = 0;
                 for (int x = 0; x < myBitmap.Width; x++)
                 {
                     for (int y = 0; y < myBitmap.Height; y++)
@@ -562,11 +537,11 @@ namespace BitmapTest
                         //  var card = rnd.Next(2);
                         var first = x.ToString();
                         var second = y.ToString();
-                        var third = outputs[g].ToString();
+                        var third = 0;
                         //  string newLine = (first + delimiter +second + delimiter + lbls);
                         var newLine2 = string.Format("{0},{1},{2}", first, second, third);
                         csv.AppendLine(newLine2);
-                        g++;
+                        //   g++;
 
                         //joint.ToString()} 
                         /*add the values that you want inside a csv file. Mostly this function can be used in a foreach loop.*/
@@ -600,13 +575,14 @@ namespace BitmapTest
             for (int i = 0; i < inputs.Length; i++)
             {
                 actual[i] = tree.Compute(inputs[i]);
-                MessageBox.Show(actual[i].ToString());
+                //   MessageBox.Show(actual[i].ToString());
             }
 
             // Use confusion matrix to compute some statistics.
-         //   ConfusionMatrix confusionMatrix = new ConfusionMatrix(actual, expected, 1, 0);
+            //   ConfusionMatrix confusionMatrix = new ConfusionMatrix(actual, expected, 1, 0);
 
-            MessageBox.Show("MADE IT!");
+          //  MessageBox.Show("MADE IT!");
+
             /**************Print Results*****************************/
             fileName = "Results.csv";
             filePath = "H:\\" + fileName;
@@ -619,25 +595,55 @@ namespace BitmapTest
                 var newLine = string.Format("{0},{1},{2}", X, Y, g);
                 csv.AppendLine(newLine);
                 //    string delimiter = ",";
-                for (int x = 0; x < myBitmap.Width; x++)
+
+                // List<Point> inputpoints = table2.GetColumns(0, 1).ToList<Point>();
+
+                var first = dt2.AsEnumerable()
+             .Select(a => a.Field<string>("X"))
+             .ToList();
+
+                var second = dt2.AsEnumerable()
+                 .Select(a => a.Field<string>("Y"))
+                 .ToList();
+
+                Rectangle cloneRect = new Rectangle(0, 0, myBitmap.Width, myBitmap.Height);
+                System.Drawing.Imaging.PixelFormat format = myBitmap.PixelFormat;
+                Bitmap cloneBitmap2 = myBitmap.Clone(cloneRect, format);
+                pictureBox1.Image = cloneBitmap2;
+
+                for (int k = 0; k < inputs.Length; k++)
                 {
-                    for (int y = 0; y < myBitmap.Height; y++)
+
+                    //test for third label value
+                    //  var card = rnd.Next(2);
+                    //  dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value
+                    //    var first = inputs[x][y];
+                    //  var second = y.ToString();
+
+
+
+                    //  string newLine = (first + delimiter +second + delimiter + lbls);
+                    var newLine2 = string.Format("{0},{1},{2}", first[k], second[k], actual[k]);
+                    int bobX;
+                    int bobY;
+                    bobX = Convert.ToInt32(first[k]);
+                    bobY = Convert.ToInt32(second[k]);
+                    //colourList.Add(New);
+                    csv.AppendLine(newLine2);
+                    if (actual[k]==1)
                     {
-                        //test for third label value
-                        //  var card = rnd.Next(2);
-                        var first = x.ToString();
-                        var second = y.ToString();
-
-                        //  string newLine = (first + delimiter +second + delimiter + lbls);
-                        var newLine2 = string.Format("{0},{1},{2}", first, second, actual);
-                        csv.AppendLine(newLine2);
-
-                        //joint.ToString()} 
-                        /*add the values that you want inside a csv file. Mostly this function can be used in a foreach loop.*/
+                        
+                        using (Graphics L = Graphics.FromImage(cloneBitmap2))
+                        {
+                            cloneBitmap2.SetPixel(bobX, bobY, Color.Red);
+                            this.pictureBox1.Invalidate();
+                          //  MessageBox.Show("pause");
+                        }
                     }
 
                 }
-
+                //  pictureBox1.Image = myBitmap;
+                pictureBox1.Invalidate();
                 File.WriteAllText(filePath, csv.ToString());
 
                 //     dgvPerformance.DataSource = new[] { confusionMatrix };
@@ -722,8 +728,8 @@ namespace BitmapTest
             //  CreateResultScatterplot(zedGraphControl1, inputs, expected.ToDouble(), actual.ToDouble());
         }
 
-       
-    }
+
+    } 
 }
 
     

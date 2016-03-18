@@ -32,7 +32,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jointSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +45,6 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.LabelJoints = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -76,7 +74,6 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
-            this.loadDataToolStripMenuItem,
             this.saveDataToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -88,13 +85,6 @@
             this.openToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
-            // 
-            // loadDataToolStripMenuItem
-            // 
-            this.loadDataToolStripMenuItem.Name = "loadDataToolStripMenuItem";
-            this.loadDataToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.loadDataToolStripMenuItem.Text = "Load Data";
-            this.loadDataToolStripMenuItem.Click += new System.EventHandler(this.loadDataToolStripMenuItem_Click);
             // 
             // saveDataToolStripMenuItem
             // 
@@ -219,22 +209,11 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // LabelJoints
-            // 
-            this.LabelJoints.Location = new System.Drawing.Point(312, 1);
-            this.LabelJoints.Name = "LabelJoints";
-            this.LabelJoints.Size = new System.Drawing.Size(75, 23);
-            this.LabelJoints.TabIndex = 9;
-            this.LabelJoints.Text = "Label Joints";
-            this.LabelJoints.UseVisualStyleBackColor = true;
-            this.LabelJoints.Click += new System.EventHandler(this.button5_Click);
-            // 
             // Bitmaptest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(688, 471);
-            this.Controls.Add(this.LabelJoints);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox1);
@@ -274,10 +253,8 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ToolStripMenuItem loadDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveDataToolStripMenuItem;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button LabelJoints;
     }
 }
 
