@@ -46,6 +46,7 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.LabelJoints = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -146,7 +147,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(322, 1);
+            this.checkBox1.Location = new System.Drawing.Point(433, 4);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(131, 17);
             this.checkBox1.TabIndex = 5;
@@ -218,11 +219,22 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // LabelJoints
+            // 
+            this.LabelJoints.Location = new System.Drawing.Point(312, 1);
+            this.LabelJoints.Name = "LabelJoints";
+            this.LabelJoints.Size = new System.Drawing.Size(75, 23);
+            this.LabelJoints.TabIndex = 9;
+            this.LabelJoints.Text = "Label Joints";
+            this.LabelJoints.UseVisualStyleBackColor = true;
+            this.LabelJoints.Click += new System.EventHandler(this.button5_Click);
+            // 
             // Bitmaptest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(688, 471);
+            this.Controls.Add(this.LabelJoints);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox1);
@@ -265,6 +277,7 @@
         private System.Windows.Forms.ToolStripMenuItem loadDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveDataToolStripMenuItem;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button LabelJoints;
     }
 }
 

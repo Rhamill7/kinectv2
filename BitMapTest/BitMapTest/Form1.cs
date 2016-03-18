@@ -50,9 +50,10 @@ namespace BitmapTest
         Tracking track = new Tracking();
         MenuItems menu = new MenuItems();
         private Point? _Previous = null;
-        private Pen _Pen = new Pen(Color.Black);
+        private Pen _Pen = new Pen(Color.Red);
         private string filePath;
         Bitmap myBitmap;
+        List<Point> polygon = new List<Point>();
 
         public Bitmaptest()
         {
@@ -71,41 +72,95 @@ namespace BitmapTest
             this.pictureBox1.MouseDown += new MouseEventHandler(this.pictureBox1_MouseDown);
         }
 
-
-
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            _Previous = new Point(e.X, e.Y);
-            pictureBox1_MouseMove(sender, e);
+         Point polyPoint = new Point(e.X, e.Y);
+            polygon.Add(polyPoint);
+            pictureBox1_Paint();
         }
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        private void pictureBox1_Paint()
         {
-
-
-            if (_Previous != null)
+          
+                Rectangle cloneRect = new Rectangle(0, 0, myBitmap.Width, myBitmap.Height);
+            System.Drawing.Imaging.PixelFormat format = myBitmap.PixelFormat;
+            Bitmap cloneBitmap = myBitmap.Clone(cloneRect, format);
+            pictureBox1.Image = cloneBitmap;
+            using (Graphics g = Graphics.FromImage(cloneBitmap))
             {
-                if (pictureBox1.Image == null)
+                if (polygon.Count > 1)
                 {
-                    Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                    using (Graphics g = Graphics.FromImage(bmp))
+                    for (int i = 0; i < polygon.Count-1; i++)
                     {
-                        g.Clear(Color.White);
+                        g.DrawLine(_Pen, polygon[i].X, polygon[i].Y, polygon[i + 1].X, polygon[i + 1].Y);
                     }
-                    pictureBox1.Image = bmp;
                 }
-                using (Graphics g = Graphics.FromImage(pictureBox1.Image))
+                else
                 {
-                    g.DrawLine(_Pen, _Previous.Value.X, _Previous.Value.Y, e.X, e.Y);
+                    g.DrawLine(_Pen, polygon[0].X, polygon[0].Y, polygon[0].X, polygon[0].Y);
                 }
-                pictureBox1.Invalidate();
-                _Previous = new Point(e.X, e.Y);
+                
             }
+            pictureBox1.Invalidate();
+
         }
 
-        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        private void button5_Click(object sender, EventArgs e)
         {
-            _Previous = null;
+            //   Point[] coversion = new Point[polygon.Count];
+            Point[] conversion = polygon.ToArray();
+            //}
+            //private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+            //{
+            //    _Previous = new Point(e.X, e.Y);
+            //    pictureBox1_MouseMove(sender, e);
+            //}
+            //private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+            //{
+
+
+            // if (_Previous != null)
+            //{
+            //  if (pictureBox1.Image == null)
+            //{
+            //            Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            //            using (Graphics g = Graphics.FromImage(bmp))
+            //            {
+            //                g.Clear(Color.White);
+            //            }
+            //            pictureBox1.Image = bmp;
+            //        }
+         //   using (Graphics g = Graphics.FromImage(myBitmap)) 
+        //        {
+        //            g.DrawLine(_Pen, conversion[0].X, conversion[0].Y, conversion[1].X, conversion[1].Y);
+        //        }
+       //         pictureBox1.Invalidate();
+        //        _Previous = new Point(e.X, e.Y);
+        //    }
         }
+
+        //private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        //{
+        //    _Previous = null;
+        //}
+
+        /************************IsPoint in polygon algorithm*************/
+        private bool IsPointInPolygon(Point[] polygon, Point point)
+        {
+            bool isInside = false;
+            for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
+            {
+                if (((polygon[i].Y > point.Y) != (polygon[j].Y > point.Y)) &&
+                (point.X < (polygon[j].X - polygon[i].X) * (point.Y - polygon[i].Y) / (polygon[j].Y - polygon[i].Y) + polygon[i].X))
+                {
+                    isInside = !isInside;
+                }
+            }
+            return isInside;
+        }
+
+
+
+
         /******************************************************************************/
 
 
@@ -179,6 +234,7 @@ namespace BitmapTest
                 string input = ofd.FileName;
                 myBitmap = getBitmap(input);
             pictureBox1.Image = myBitmap;
+                polygon.Clear();
             frameNo = 0;
             frameSelected = true;
             frameJointList.Add(false);
@@ -665,6 +721,8 @@ namespace BitmapTest
             // Create performance scatter plot
             //  CreateResultScatterplot(zedGraphControl1, inputs, expected.ToDouble(), actual.ToDouble());
         }
+
+       
     }
 }
 
