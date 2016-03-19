@@ -18,11 +18,7 @@ using Accord.MachineLearning.DecisionTrees;
 using Accord.MachineLearning.DecisionTrees.Learning;
 using Accord.Math;
 using Accord.Statistics.Analysis;
-//using AForge;
-//using Components;
 using System.IO;
-
-//using ZedGraph;
 
 
 namespace BitmapTest
@@ -31,38 +27,26 @@ namespace BitmapTest
     {
 
 
-        DecisionTree tree;
+        // DecisionTree tree;
         string[] columnNames;
         int[] outputs;
-        // DataTable table;
-        // double[] xVals;
-        // double[] yVals;
-        // double[] xValues;
-        //double[] yValues;
-        // double[] lbls2;
-        //int[]jointLabels;
-        // double[] inputs;
         List<Point> pixelPoint = new List<Point>();
         List<bool> frameJointList = new List<bool>();
-        private int frameNo = 0;
-        private bool frameSelected = false;
-        string joint;
-        Tracking track = new Tracking();
+        //  private int frameNo = 0;
+        // private bool frameSelected = false;
+        // string joint;
+        // Tracking track = new Tracking();
         MenuItems menu = new MenuItems();
-        private Point? _Previous = null;
         private Pen _Pen = new Pen(Color.Red);
-        private string filePath;
+        // private string filePath;
         Bitmap myBitmap;
         List<Point> polygon = new List<Point>();
+        List<DecisionTree> bootStrappedDecisionTrees = new List<DecisionTree>();
+        static Random rnd = new Random();
 
         public Bitmaptest()
         {
             InitializeComponent();
-
-            // dgvLearningSource.AutoGenerateColumns = true;
-            //   dgvPerformance.AutoGenerateColumns = false;
-
-            //    openFileDialog.InitialDirectory = Path.Combine(Application.StartupPath, "Resources");
         }
 
 
@@ -104,7 +88,7 @@ namespace BitmapTest
 
         }
 
-       
+
 
         /************************IsPoint in polygon algorithm*************/
         private bool IsPointInPolygon(Point[] polygon, Point point)
@@ -120,56 +104,9 @@ namespace BitmapTest
             }
             return isInside;
         }
-        
+
         /******************************************************************************/
 
-
-        /*
-
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-        {
-            Point P = new Point(e.X, e.Y);
-
-            if (frameSelected == true)
-            {
-                if (checkBox1.Checked) // && (groupBox1.Controls.OfType<RadioButton>().Any(x => x.Checked)))
-                {   
-                    //if(frameJointList[frameNo]==false) { 
-                    try
-                    {
-                        Bitmap myBitmap = getBitmap(menu.filePathLocation() + frameNo + ".png");
-                        myBitmap.SetPixel(P.X, P.Y, Color.Red);
-                        pictureBox1.Image = myBitmap;
-                        MessageBox.Show(P.ToString());
-                        track.setJointLocations(frameNo,P,joint);
-
-
-
-
-
-                           // frameJointList.Insert(frameNo, true);
-                    }
-                      catch (Exception r)
-                    {
-                        MessageBox.Show(r + "Please click somewhere on the picture.");
-                    }
-
-                    //}
-                      // else { MessageBox.Show("You have already picked a joint for this frame");
-                    //}
-                }
-                else
-                {
-                    MessageBox.Show("Please enable Joint selection.");
-                }
-            }
-
-            else
-            {
-                MessageBox.Show("Please select the first frame.");
-            }
-        }
-      */
 
         public Bitmap getBitmap(string input)
         {
@@ -188,19 +125,14 @@ namespace BitmapTest
 
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                //  Bitmap myBitMap = menu.openFile();
-                // filePath = Interaction.InputBox("Please enter a valid file path to the folder of depth images",
-                //  "File Path", "C:\\Users\\Robbie\\Pictures\\");
-                //string input = filePath + "0" + ".png";
                 string input = ofd.FileName;
                 myBitmap = getBitmap(input);
                 pictureBox1.Image = myBitmap;
                 polygon.Clear();
-                frameNo = 0;
-                frameSelected = true;
-                frameJointList.Add(false);
-                //  Bitmap myBitmap = getBitmap(menu.filePathLocation() + frameNo + ".png");
-                // MessageBox.Show(input);
+                //  frameNo = 0;
+                // frameSelected = true;
+                // frameJointList.Add(false);
+
             }
         }
 
@@ -273,15 +205,15 @@ namespace BitmapTest
 
         private void jointTrackingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Please make sure you have selected joints on all desired frames.");
-            this.Hide();
-            Form f2 = new Form2(track);
-            f2.Show();
+            //MessageBox.Show("Please make sure you have selected joints on all desired frames.");
+            //this.Hide();
+            //Form f2 = new Form2(track);
+            //f2.Show();
         }
 
         private void jointSelectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("You are already on joint selection");
+            //MessageBox.Show("You are already on joint selection");
         }
 
 
@@ -289,21 +221,15 @@ namespace BitmapTest
 
         private void button3_Click(object sender, EventArgs e)
         {
-            /* if (dgvLearningSource.DataSource == null)
-             {
-                 MessageBox.Show("Please load some data first.");
-                 return;
-             }
+            DataTable dt3 = new DataTable();
+            // Finishes and save any pending changes to the given data
 
-             // Finishes and save any pending changes to the given data
-             dgvLearningSource.EndEdit();
-             */
             DataTable res = ConvertCSVtoDataTable((@"H:\trainingData.csv"));
 
             //   object dgvLearningSource = null;
             // Creates a matrix from the entire source data table
             double[,] table = res.ToMatrix(out columnNames);
-            //convert array of strings to array of ints
+
 
             // Get only the input vector values (first two columns)
             double[][] inputs = table.GetColumns(0, 1).ToArray();
@@ -312,16 +238,7 @@ namespace BitmapTest
 
             outputs = table.GetColumn(2).ToInt32();
 
-            // Get only the input vector values (first two columns)
-            //    double[][] inputs = new double[2][];
-            //  inputs[0] = xValues;
-            // inputs[1] = yValues;
-
-            //inputs.InsertColumn(xValues);
-            //inputs.InsertColumn(yValues);
-            // Get only the output labels (last column)
-            //      int[] outputs = jointLabels;
-
+            //           table.OrderBy(r => Guid.NewGuid()).Take(5);
 
             // Specify the input variables
             DecisionVariable[] variables =
@@ -330,19 +247,55 @@ namespace BitmapTest
                 new DecisionVariable("y", DecisionVariableKind.Continuous),
             };
 
-            // Create the discrete Decision tree
-            tree = new DecisionTree(variables, 2);
-
-            // Create the C4.5 learning algorithm
-            C45Learning c45 = new C45Learning(tree);
-
-            // Learn the decision tree using C4.5
-            double error = c45.Run(inputs, outputs);
 
 
+            for (int i = 0; i < 10; i++)
+            {
 
+
+                /**********************get random smaller data set from larger data set*******************************/
+                List<int> randomNumber = new List<int>();
+                for (int r = 0; r < 200; r++)
+                {
+                    var card = rnd.Next(inputs.Length);
+                    randomNumber.Add(card);
+                }
+                //   MessageBox.Show("Yolo");
+
+                dt3.ImportRow((res.Rows[0]));
+                for (int m = 0; m < inputs.Length; m++)
+                {
+                    //int index = res.Rows.IndexOf(dr);
+                    if (randomNumber.Contains(m))
+                    {
+                        dt3.ImportRow((res.Rows[m]));
+                    }
+                }
+
+
+                double[,] table2 = dt3.ToMatrix(out columnNames);
+                double[][] inputs2 = table.GetColumns(0, 1).ToArray();
+                int[] outputs2 = table.GetColumn(2).ToInt32();
+
+                // Create the discrete Decision tree
+                DecisionTree tree = new DecisionTree(variables, 2);
+
+                // Create the C4.5 learning algorithm
+                C45Learning c45 = new C45Learning(tree);
+
+                // Learn the decision tree using C4.5
+                double error = c45.Run(inputs2, outputs2);
+
+
+                bootStrappedDecisionTrees.Add(tree);
+                // MessageBox.Show(error.ToString());
+            }
             MessageBox.Show("Learning finished!");
         }
+
+
+
+
 
 
         public static DataTable ConvertCSVtoDataTable(string strFilePath)
@@ -366,102 +319,6 @@ namespace BitmapTest
             }
             return dt;
         }
-
-
-
-        //***********************************loading data from TrainingData***************************************// 
-        private void loadDataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-            //var reader = new StreamReader(File.OpenRead(@"H:\TrainingData.csv"));
-            // DataTable res = ConvertCSVtoDataTable((@"H:\TrainingData.csv"));
-            //List<string> Xvalues = new List<string>();
-            //List<string> Yvalues = new List<string>();
-            //List<string> lbls = new List<string>();
-
-            //// char[] delimiters = new char[] {',',';' };
-            //while (!reader.EndOfStream)
-            //{
-            //    char[] delimiters = new char[] { ',', '\r', '\n', ' ' };
-            //    string line = reader.ReadLine();
-            //    string[] values = line.Split(delimiters);                 //Split(',');
-
-            //    Xvalues.Add(values[0]);
-            //    Yvalues.Add(values[1]);
-            //    lbls.Add(values[2]);
-            //    //for (int i = 0; i < values.Length; i++)
-            //    //{
-            //    //    MessageBox.Show(values[i]);
-            //    //}
-
-
-            //}
-
-
-            //double[] xValues = new double[Xvalues.Count];
-            //double[] yValues = new double[Yvalues.Count];
-            //double[] jointlbls = new double[lbls.Count];
-
-            ///************Convert to doubles*******/
-            //double result;
-
-            //foreach (string value in Xvalues)
-            //{
-            //    try
-            //    {
-            //        result = Convert.ToDouble(value);
-            //        xValues.Add(result);
-            //    }
-            //    catch (FormatException)
-            //    {
-            //        Console.WriteLine("Unable to convert '{0}' to a Double.", value);
-            //    }
-            //    catch (OverflowException)
-            //    {
-            //        Console.WriteLine("'{0}' is outside the range of a Double.", value);
-            //    }
-            //}
-
-            //foreach (string value in Yvalues)
-            //{
-            //    try
-            //    {
-            //        result = Convert.ToDouble(value);
-            //        yValues.Add(result);
-            //    }
-            //    catch (FormatException)
-            //    {
-            //        Console.WriteLine("Unable to convert '{0}' to a Double.", value);
-            //    }
-            //    catch (OverflowException)
-            //    {
-            //        Console.WriteLine("'{0}' is outside the range of a Double.", value);
-            //    }
-            //}
-
-            //foreach (string value in lbls)
-            //{
-            //    try
-            //    {
-            //        result = Convert.ToDouble(value);
-            //        jointlbls.Add(result);
-            //    }
-            //    catch (FormatException)
-            //    {
-            //        Console.WriteLine("Unable to convert '{0}' to a Double.", value);
-            //    }
-            //    catch (OverflowException)
-            //    {
-            //        Console.WriteLine("'{0}' is outside the range of a Double.", value);
-            //    }
-            //}
-
-            //jointLabels = jointlbls.Select(d => (int)d).ToArray();
-            ///************************************************************************/
-            //MessageBox.Show("When ready, click 'Create Tree' to start the tree inducing algorithm!");
-        }
-
-
 
         /**************************Save data from input*************/
         private void saveDataToolStripMenuItem_Click(object sender, EventArgs e)
@@ -507,10 +364,14 @@ namespace BitmapTest
             }
 
             File.WriteAllText(filePath, csv.ToString());
-            MessageBox.Show("Learning finished!");
+            MessageBox.Show("Saved Data to CSV!");
         }
 
 
+     
+        
+        
+        
         /*******************************running on new data*****************************************/
         private void button4_Click(object sender, EventArgs e)
         {
@@ -533,18 +394,13 @@ namespace BitmapTest
                 {
                     for (int y = 0; y < myBitmap.Height; y++)
                     {
-                        //test for third label value
-                        //  var card = rnd.Next(2);
+
                         var first = x.ToString();
                         var second = y.ToString();
                         var third = 0;
-                        //  string newLine = (first + delimiter +second + delimiter + lbls);
                         var newLine2 = string.Format("{0},{1},{2}", first, second, third);
                         csv.AppendLine(newLine2);
-                        //   g++;
 
-                        //joint.ToString()} 
-                        /*add the values that you want inside a csv file. Mostly this function can be used in a foreach loop.*/
                     }
 
                 }
@@ -553,7 +409,8 @@ namespace BitmapTest
             }
             //  private void btnTestingRun_Click(object sender, EventArgs e)
             //{
-            if (tree == null || filePath == null)
+            //if (tree == null || filePath == null)
+            if (filePath == null)
             {
                 MessageBox.Show("Please create a machine first.");
                 return;
@@ -572,16 +429,23 @@ namespace BitmapTest
 
             // Compute the actual tree outputs
             int[] actual = new int[inputs.Length];
+
+            //for every input
             for (int i = 0; i < inputs.Length; i++)
             {
-                actual[i] = tree.Compute(inputs[i]);
-                //   MessageBox.Show(actual[i].ToString());
+
+                int[] result = new int[bootStrappedDecisionTrees.Count];
+                //for every tree
+                for (int j = 0; j < bootStrappedDecisionTrees.Count; j++)
+                {
+                    //add each tree result to array
+                    result[j] = bootStrappedDecisionTrees[j].Compute(inputs[i]);
+                }
+                //get most common occuring label for each pixel
+                actual[i] = CommonOccurrence(result);
             }
 
-            // Use confusion matrix to compute some statistics.
-            //   ConfusionMatrix confusionMatrix = new ConfusionMatrix(actual, expected, 1, 0);
-
-          //  MessageBox.Show("MADE IT!");
+            //  MessageBox.Show("MADE IT!");
 
             /**************Print Results*****************************/
             fileName = "Results.csv";
@@ -594,9 +458,6 @@ namespace BitmapTest
                 var csv = new StringBuilder();
                 var newLine = string.Format("{0},{1},{2}", X, Y, g);
                 csv.AppendLine(newLine);
-                //    string delimiter = ",";
-
-                // List<Point> inputpoints = table2.GetColumns(0, 1).ToList<Point>();
 
                 var first = dt2.AsEnumerable()
              .Select(a => a.Field<string>("X"))
@@ -614,122 +475,59 @@ namespace BitmapTest
                 for (int k = 0; k < inputs.Length; k++)
                 {
 
-                    //test for third label value
-                    //  var card = rnd.Next(2);
-                    //  dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value
-                    //    var first = inputs[x][y];
-                    //  var second = y.ToString();
 
-
-
-                    //  string newLine = (first + delimiter +second + delimiter + lbls);
                     var newLine2 = string.Format("{0},{1},{2}", first[k], second[k], actual[k]);
                     int bobX;
                     int bobY;
                     bobX = Convert.ToInt32(first[k]);
                     bobY = Convert.ToInt32(second[k]);
-                    //colourList.Add(New);
                     csv.AppendLine(newLine2);
-                    if (actual[k]==1)
+                    if (actual[k] == 1)
                     {
-                        
+
                         using (Graphics L = Graphics.FromImage(cloneBitmap2))
                         {
                             cloneBitmap2.SetPixel(bobX, bobY, Color.Red);
                             this.pictureBox1.Invalidate();
-                          //  MessageBox.Show("pause");
                         }
                     }
 
                 }
-                //  pictureBox1.Image = myBitmap;
+
                 pictureBox1.Invalidate();
                 File.WriteAllText(filePath, csv.ToString());
-
-                //     dgvPerformance.DataSource = new[] { confusionMatrix };
-
-                // Create performance scatter plot
-                //   CreateResultScatterplot(zedGraphControl1, inputs, expected.ToDouble(), actual.ToDouble());
             }
-
-            //  double[][] inputs = new double[2][];
-            ////  double[] xVals;
-            // // double[] yVals;
-
-            //  if (tree == null)
-            //  {
-            //      MessageBox.Show("Please create a machine first and load in a new image.");
-            //      return;
-            //  }
-            //  for (int x = 0; x < myBitmap.Width; x++)
-            //  {
-            //      for (int y = 0; y < myBitmap.Height; y++)
-            //      {
-
-
-            //          var first = x.ToString();
-            //          var second = y.ToString();
-            //          xVals.Add(Convert.ToDouble(x));
-            //          yVals.Add(Convert.ToDouble(y));
-            //      }
-
-            //  }
-
-            //  // Creates a matrix from the entire source data table
-            ////  double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
-
-            //  // Get only the input vector values (first two columns)
-            //  inputs.InsertColumn(xVals);
-            //  inputs.InsertColumn(yVals);
-
-
-            //  // Get the expected output labels (last column)
-            //  int[] expected = jointLabels;
-
-
-            //  // Compute the actual tree outputs
-            //  int[] actual = new int[inputs.Length];
-            //  for (int i = 0; i < inputs.Length; i++)
-            //      actual[i] = tree.Compute(inputs[i]);
-
-            //  string fileName = "OutputData.csv";
-            //  string filePath = "H:\\" + fileName;
-            //  if (!File.Exists(filePath))
-            //  {
-            //      File.Create(filePath).Close();
-            //  }
-            //  var csv = new StringBuilder();
-            ////  var newLine = string.Format("X", "Y", "Actual label");
-            ////  string delimiter = ",";
-            //  for (int x = 0; x < myBitmap.Width; x++)
-            //  {
-            //      for (int y = 0; y < myBitmap.Height; y++)
-            //      {
-
-
-            //          var first = x.ToString();
-            //          var second = y.ToString();
-            //          //  string newLine = (first + delimiter + second + delimiter + lbls);
-            //          var newLine = string.Format("{0},{1}", first, second);
-            //          csv.AppendLine(newLine);
-
-            //          //joint.ToString()} 
-            //          /*add the values that you want inside a csv file. Mostly this function can be used in a foreach loop.*/
-            //      }
-
-            //  }
-
-            //  File.WriteAllText(filePath, csv.ToString());
-            // Use confusion matrix to compute some statistics.
-            //            ConfusionMatrix confusionMatrix = new ConfusionMatrix(actual, expected, 1, 0);
-            // dgvPerformance.DataSource = new[] { confusionMatrix };
-
-            // Create performance scatter plot
-            //  CreateResultScatterplot(zedGraphControl1, inputs, expected.ToDouble(), actual.ToDouble());
         }
 
 
-    } 
+
+
+
+        /*************Returns most common occurring label***********/
+        private int CommonOccurrence(int[] numbers)
+        {
+            var counts = new Dictionary<int, int>();
+            foreach (int number in numbers)
+            {
+                int count;
+                counts.TryGetValue(number, out count);
+                count++;
+                //Automatically replaces the entry if it exists;
+                //no need to use 'Contains'
+                counts[number] = count;
+            }
+            int mostCommonNumber = 0, occurrences = 0;
+            foreach (var pair in counts)
+            {
+                if (pair.Value > occurrences)
+                {
+                    occurrences = pair.Value;
+                    mostCommonNumber = pair.Key;
+                }
+            }
+            return mostCommonNumber;
+        }
+    }
 }
 
-    
+
