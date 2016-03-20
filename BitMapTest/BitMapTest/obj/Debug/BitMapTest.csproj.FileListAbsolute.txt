@@ -71,3 +71,7 @@ F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\bin\Debug\sv\ZedGraph.resourc
 F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\bin\Debug\tr\ZedGraph.resources.dll
 F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\bin\Debug\zh-cn\ZedGraph.resources.dll
 F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\bin\Debug\zh-tw\ZedGraph.resources.dll
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\bin\Debug\Microsoft.Kinect.dll
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\bin\Debug\Microsoft.Kinect.Tools.dll
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\bin\Debug\Microsoft.Kinect.xml
+F:\Uni Work\PROJECT\kinectv2\BitMapTest\BitMapTest\bin\Debug\Microsoft.Kinect.Tools.xml
