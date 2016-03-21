@@ -14,99 +14,80 @@ using Microsoft.VisualBasic;
 public class Tracking
 {
 
-    private List<Point> pixelPoint = new List<Point>();
-    public List<List<Point>> hipPoints = new List<List<Point>>();
-    public List<List<Point>> kneePoints = new List<List<Point>>();
-    public List<List<Point>> anklePoints = new List<List<Point>>();
-  private  Point avgHipPoint, avgKneePoint, avgAnklePoint = new Point();
-
+    Random ran = new Random();
 
     public Tracking()
     {
-
-       // Populate 2d lists
-        for (int i = 0; i < 10; i++)
-        {
-
-            List<Point> sublist = new List<Point>();
-            hipPoints.Add(sublist);
-        }
-
-
-        for (int j = 0; j < 10; j++)
-        {
-
-            List<Point> sublist = new List<Point>();
-            kneePoints.Add(sublist);
-        }
-
-
-        for (int k= 0; k < 10; k++)
-        {
-
-            List<Point> sublist = new List<Point>();
-            anklePoints.Add(sublist);
-        }
-        
+       
     }
 
-    public void setJointLocations(int frameNo, Point p, string jointName)
-    {
 
-      //  MessageBox.Show(frameNo + " " + p + " "+ jointName);
-        switch (jointName)
+    /************************IsPoint in polygon algorithm*************/
+    public bool IsPointInPolygon(Point[] polygon, Point point)
+    {
+        bool isInside = false;
+        for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
         {
-            case "hip":
-                hipPoints[frameNo].Add(p);
-              //  MessageBox.Show(lists.ToString());
-                break;
-            case "knee":
-            //  MessageBox.Show("knee");
-                kneePoints[frameNo].Add(p);
-                break;
-            case "ankle":
-               // MessageBox.Show("ankle");
-                anklePoints[frameNo].Add(p);
-                break;
-            default:
-               MessageBox.Show("No Joint Selected");
-                break;
+            if (((polygon[i].Y > point.Y) != (polygon[j].Y > point.Y)) &&
+            (point.X < (polygon[j].X - polygon[i].X) * (point.Y - polygon[i].Y) / (polygon[j].Y - polygon[i].Y) + polygon[i].X))
+            {
+                isInside = !isInside;
+            }
         }
+        return isInside;
+    }
+
+    /******************************************************************************/
+
+    public UInt16[] setJointLocations(Point p, Bitmap myBitmap)
+    {
+        //make new square around point
+        Rectangle rec = new Rectangle(((p.X)-2), ((p.Y)-2), 5, 5);
+        Point[] recPoints = new Point[3];
+        recPoints[0] = new Point (rec.X,rec.Y);
+        recPoints[0] = new Point(rec.X+rec.Width, rec.Y);
+        recPoints[0] = new Point(rec.X+rec.Width, rec.Y+rec.Height);
+        recPoints[0] = new Point(rec.X, rec.Y+rec.Height);
+        UInt16[] predictionValues = new UInt16[200];
+        //create random offset point pairs 200 times
+
+        for (int i = 0; i<200; i++)
+        {
+        // make sure random points stay in x and y range of rextangle around point
+            int offsetX = ran.Next(rec.X, rec.X + rec.Width);
+            int offsetY = ran.Next(rec.Y, rec.Y + rec.Height);
+            Point newPoint = new Point(offsetX,offsetY);
+
+
+            int offsetX2 = ran.Next(rec.X, rec.X + rec.Width);
+            int offsetY2 = ran.Next(rec.Y, rec.Y + rec.Height);
+            Point newPoint2 = new Point(offsetX, offsetY);
+            // Double check to make sure its in polygon
+            if (IsPointInPolygon(recPoints, newPoint) && IsPointInPolygon(recPoints, newPoint))
+            {
+
+                /***********possible need for conversion to greyscale?******/
+
+                Color pixelColour = myBitmap.GetPixel(offsetX, offsetY);
+                Color pixelColour2 = myBitmap.GetPixel(offsetX2, offsetY2);
+                int valueOne = pixelColour.ToArgb();
+                int valueTwo = pixelColour2.ToArgb();
+
+                int prediction = valueOne - valueTwo;
+                //        UInt16 conValueOne = Convert.ToUInt16(valueOne);
+                //       UInt16 convalueTwo = Convert.ToUInt16(valueOne);
+
+
+                UInt16 predictionValue = Convert.ToUInt16(prediction);
+                
+                predictionValues[i] = predictionValue;
+                //UInt16 grayValue1 = Grayscale(pixelColour.ToArgb());
+            }
+        }
+        return predictionValues;
             
     }
 
    
-
-    public Point getAvgHipLocations(int frameNo) {
-
-    Point avgHipPoint = new Point
-    {
-        X = (int)Math.Round(hipPoints[frameNo].Average(a => a.X)),
-        Y = (int)Math.Round(hipPoints[frameNo].Average(a => a.Y))
-    };
-
-    return avgHipPoint;
-    }
-
-    public Point getAvgKneeLocations(int frameNo)
-    {
-        Point avgKneePoint = new Point
-        {
-            X = (int)Math.Round(kneePoints[frameNo].Average(a => a.X)),
-            Y = (int)Math.Round(kneePoints[frameNo].Average(a => a.Y))
-        };
-        return avgKneePoint;
-    }
-
-    public Point getAvgAnkleLocations(int frameNo)
-    {
-        Point avgAnklePoint = new Point
-        {
-            X = (int)Math.Round(anklePoints[frameNo].Average(a => a.X)),
-            Y = (int)Math.Round(anklePoints[frameNo].Average(a => a.Y))
-        };
-        return avgAnklePoint;
-    }
-
 
 }

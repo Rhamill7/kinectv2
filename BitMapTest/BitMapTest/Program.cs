@@ -19,7 +19,7 @@ namespace BitmapTest
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Bitmaptest());
             Tracking track = new Tracking();
-            MenuItems menu = new MenuItems();
+           // MenuItems menu = new MenuItems();
         }
     }
 }
